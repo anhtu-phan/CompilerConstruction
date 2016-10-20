@@ -40,130 +40,55 @@ void compileProgram(void) {
 
 void compileBlock(void) {
   assert("Parsing a Block ....");
-  if (lookAhead->tokenType == KW_CONST) {
-    eat(KW_CONST);
-    compileConstDecl();
-    compileConstDecls();
-    compileBlock2();
-  } 
-  else compileBlock2();
+  // TODO of anhtu
   assert("Block parsed!");
 }
 
-void compileBlock2(void) {
-  if (lookAhead->tokenType == KW_TYPE) {
-    eat(KW_TYPE);
-    compileTypeDecl();
-    compileTypeDecls();
-    compileBlock3();
-  } 
-  else compileBlock3();
-}
-
-void compileBlock3(void) {
-  if (lookAhead->tokenType == KW_VAR) {
-    eat(KW_VAR);
-    compileVarDecl();
-    compileVarDecls();
-    compileBlock4();
-  } 
-  else compileBlock4();
-}
-
-void compileBlock4(void) {
-  compileSubDecls();
-  compileBlock5();
-}
-
-void compileBlock5(void) {
-  eat(KW_BEGIN);
-  compileStatements();
-  eat(KW_END);
-}
-
 void compileConstDecls(void) {
-  // TODO
-}
-
-void compileConstDecl(void) {
-  // TODO
+  // TODO of anhtu
 }
 
 void compileTypeDecls(void) {
-  // TODO
-}
-
-void compileTypeDecl(void) {
-  // TODO
+  // TODO of anhtu
 }
 
 void compileVarDecls(void) {
-  // TODO
-}
-
-void compileVarDecl(void) {
-  // TODO
-}
-
-void compileSubDecls(void) {
-  assert("Parsing subtoutines ....");
-  // TODO
-  assert("Subtoutines parsed ....");
-}
-
-void compileFuncDecl(void) {
-  assert("Parsing a function ....");
-  // TODO
-  assert("Function parsed ....");
+  // TODO of anhtu
 }
 
 void compileProcDecl(void) {
   assert("Parsing a procedure ....");
-  // TODO
+  // TODO of anhtu
   assert("Procedure parsed ....");
 }
 
-void compileUnsignedConstant(void) {
-  // TODO
-}
-
-void compileConstant(void) {
-  // TODO
-}
-
-void compileConstant2(void) {
-  // TODO
-}
-
-void compileType(void) {
-  // TODO
-}
-
-void compileBasicType(void) {
-  // TODO
+void compileFuncDecl(void) {
+  assert("Parsing a function ....");
+  // TODO of anhtu
+  assert("Function parsed ....");
 }
 
 void compileParams(void) {
-  // TODO
+  // TODO of anhtu
 }
 
-void compileParams2(void) {
-  // TODO
+void compileUnsignedConstant(void) {
+  // TODO of anhtu
 }
 
-void compileParam(void) {
-  // TODO
+void compileConstant(void) {
+  // TODO of anhtu
+}
+
+void compileType(void) {
+  // TODO of anhtu
+}
+
+void compileBasicType(void) {
+  // TODO of anhtu
 }
 
 void compileStatements(void) {
-  // TODO
-}
-
-void compileStatements2(void) {
-  // TODO
-}
-
-void compileStatement(void) {
   switch (lookAhead->tokenType) {
   case TK_IDENT:
     compileAssignSt();
@@ -197,19 +122,19 @@ void compileStatement(void) {
 
 void compileAssignSt(void) {
   assert("Parsing an assign statement ....");
-  // TODO
+  // TODO of TuanDat
   assert("Assign statement parsed ....");
 }
 
 void compileCallSt(void) {
   assert("Parsing a call statement ....");
-  // TODO
+  // TODO of TuanDat
   assert("Call statement parsed ....");
 }
 
 void compileGroupSt(void) {
   assert("Parsing a group statement ....");
-  // TODO
+  // TODO of TuanDat
   assert("Group statement parsed ....");
 }
 
@@ -231,61 +156,32 @@ void compileElseSt(void) {
 
 void compileWhileSt(void) {
   assert("Parsing a while statement ....");
-  // TODO
+  // TODO of TuanDat
   assert("While statement pased ....");
 }
 
 void compileForSt(void) {
   assert("Parsing a for statement ....");
-  // TODO
+  // TODO of TuanDat
   assert("For statement parsed ....");
-}
-
-void compileArguments(void) {
-  // TODO
-}
-
-void compileArguments2(void) {
-  // TODO
-}
-
-void compileCondition(void) {
-  // TODO
-}
-
-void compileCondition2(void) {
-  // TODO
 }
 
 void compileExpression(void) {
   assert("Parsing an expression");
-  // TODO
+  // TODO of TuanDat
   assert("Expression parsed");
 }
 
-void compileExpression2(void) {
-  // TODO
-}
-
-
-void compileExpression3(void) {
-  // TODO
-}
-
 void compileTerm(void) {
-  // TODO
-}
-
-void compileTerm2(void) {
-  // TODO
+  // TODO of TuanDat
 }
 
 void compileFactor(void) {
-  // TODO
+  // TODO of TuanDat
 }
 
-void compileIndexes(void) {
-  // TODO
+void compileCondition(void) {
+  // TODO of TuanDat
 }
 
 int compile(char *fileName) {
