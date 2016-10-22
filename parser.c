@@ -1,4 +1,4 @@
-/* 
+/*
  * @copyright (c) 2008, Hedspi, Hanoi University of Technology
  * @author Huu-Duc Nguyen
  * @version 1.0
@@ -143,15 +143,15 @@ void compileIfSt(void) {
   eat(KW_IF);
   compileCondition();
   eat(KW_THEN);
-  compileStatement();
-  if (lookAhead->tokenType == KW_ELSE) 
+  compileStatements();
+  if (lookAhead->tokenType == KW_ELSE)
     compileElseSt();
   assert("If statement parsed ....");
 }
 
 void compileElseSt(void) {
   eat(KW_ELSE);
-  compileStatement();
+  compileStatements();
 }
 
 void compileWhileSt(void) {
@@ -178,10 +178,39 @@ void compileTerm(void) {
 
 void compileFactor(void) {
   // TODO of TuanDat
+  switch(lookAhead->tokenType){
+      case SB_LPAR: eat(SB_LPAR); compileExpression(); eat(SB_RPAR); break;
+      case TK_CHAR:eat(TK_CHAR); break;
+      case TK_NUMBER: eat(TK_NUMBER); break;
+      case TK_IDENT: eat(TK_IDENT);
+            switch(lookAhead->tokenType){
+            case SB_LPAR: eat(SB_LPAR);
+                            compileExpression();
+                            while (lookAhead->tokenType==SB_COMMA){
+                                    eat(SB_COMMA);
+                                    compileExpression();
+                            }
+                            eat(SB_RPAR);
+                            break;
+            }
+        case
+      default : error(ERM_INVALIDFACTOR);
+  }
 }
 
 void compileCondition(void) {
   // TODO of TuanDat
+  compileExpression();
+  switch(lookAhead->tokenType) {
+    case SB_EQ:eat(SB_EQ); break;
+    case SB_NEQ:eat(SB_NEQ); break;
+    case SB_LT:eat(SB_LT); break;
+    case SB_LE:eat(SB_LE); break;
+    case SB_GT:eat(SB_GT); break;
+    case SB_GE:eat(SB_GE); break;
+    default :error(ERM_INVALIDCOMPARATOR);
+  }
+  compileExpression();
 }
 
 int compile(char *fileName) {
