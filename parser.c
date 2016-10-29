@@ -156,8 +156,8 @@ void compileFuncDecl(void) {
 
 void compileParams(void) {
   // TODO of anhtu
+	eat(SB_LPAR);	
 	while(1){
-		eat(SB_LPAR);
 		if(lookAhead->tokenType == KW_VAR){
 			eat(KW_VAR);
 		}
@@ -184,19 +184,23 @@ void compileUnsignedConstant(void) {
 
 void compileConstant(void) {
   // TODO of anhtu
-	if(lookAhead->tokenType == SB_PLUS || lookAhead->tokenType == SB_MINUS){
+	if(lookAhead->tokenType == TK_CHAR){
+		eat(TK_CHAR);
+	}else if(lookAhead->tokenType == SB_PLUS || lookAhead->tokenType == SB_MINUS){
 		if(lookAhead->tokenType == SB_PLUS){
 			eat(SB_PLUS);
 		}else if(lookAhead->tokenType == SB_MINUS){
 			eat(SB_MINUS);
-		}
+		}	
 		if(lookAhead->tokenType == TK_IDENT){
 			eat(TK_IDENT);
 		}else if(lookAhead->tokenType == TK_NUMBER){
 			eat(TK_NUMBER);
 		}
-	}else if(lookAhead->tokenType == TK_CHAR){
-		eat(TK_CHAR);
+	}else if(lookAhead->tokenType == TK_IDENT){
+		eat(TK_IDENT);
+	}else if(lookAhead->tokenType == TK_NUMBER){
+		eat(TK_NUMBER);
 	}else{
 		error('ERM_INVALIDCONSTANT', lookAhead->lineNo, lookAhead->colNo);
 	}
