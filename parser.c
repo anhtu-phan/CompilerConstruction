@@ -60,7 +60,7 @@ void compileBlock(void) {
 		//eat(SB_SEMICOLON);
 		while(lookAhead->tokenType == SB_SEMICOLON){
 			eat(SB_SEMICOLON);
-			compileStatements();	
+			compileStatements();
 		}
 		eat(KW_END);
 	}
@@ -194,7 +194,7 @@ void compileConstant(void) {
 	}else if(lookAhead->tokenType == TK_CHAR){
 		eat(TK_CHAR);
 	}else{
-		error(ERM_INVALIDCONSTANT, lookAhead->lineNo, lookAhead->colNo);
+		error('ERM_INVALIDCONSTANT', lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
@@ -212,7 +212,7 @@ void compileBasicType(void) {
 	switch(lookAhead->tokenType){
 		case KW_INTEGER : eat(KW_INTEGER); break;
 		case KW_CHAR : eat(KW_CHAR); break;
-		default : error(ERM_INVALIDBASICTYPE, lookAhead->lineNo, lookAhead->colNo);
+		default : error('ERM_INVALIDBASICTYPE', lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
