@@ -46,25 +46,28 @@ void compileBlock(void) {
   // TODO of anhtu
 	if(lookAhead->tokenType == KW_CONST){
 			compileConstDecls();
-	} else if(lookAhead->tokenType == KW_TYPE){
+	}  
+	if(lookAhead->tokenType == KW_TYPE){
 			compileTypeDecls();
-	} else if(lookAhead->tokenType == KW_VAR){
+	}  
+	if(lookAhead->tokenType == KW_VAR){
 			compileVarDecls();
-	} else if(lookAhead->tokenType == KW_PROCEDURE){
+	}  
+	if(lookAhead->tokenType == KW_PROCEDURE){
 			compileProcDecl();
-	} else if(lookAhead->tokenType == KW_FUNCTION){
-		compileFuncDecl();
-	}else{
-		eat(KW_BEGIN);
-		compileStatements();
-		//eat(SB_SEMICOLON);
-		while(lookAhead->tokenType == SB_SEMICOLON){
-			eat(SB_SEMICOLON);
-			compileStatements();
-		}
-		eat(KW_END);
 	}
-  assert("Block parsed!");
+	if(lookAhead->tokenType == KW_FUNCTION){
+		compileFuncDecl();
+	}
+	eat(KW_BEGIN);
+	compileStatements();
+	//eat(SB_SEMICOLON);
+	while(lookAhead->tokenType == SB_SEMICOLON){
+		eat(SB_SEMICOLON);
+		compileStatements();
+	}
+	eat(KW_END);
+	assert("Block parsed!");
 }
 
 void compileConstDecls(void) {
