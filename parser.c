@@ -175,6 +175,7 @@ void compileUnsignedConstant(void) {
 		case TK_NUMBER: eat(TK_NUMBER); break;
 		case TK_CHAR : eat(TK_CHAR); break;
 		case TK_IDENT : eat(TK_IDENT); break;
+		default : error('ERM_INVALIDCONSTANT', lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
@@ -203,7 +204,9 @@ void compileType(void) {
 	switch(lookAhead->tokenType){
 		case TK_IDENT : eat(TK_IDENT); break;
 		case KW_ARRAY : eat(KW_ARRAY); eat(SB_LSEL); eat(TK_NUMBER); eat(SB_RSEL); eat(KW_OF); compileType(); break;
-		default : compileBasicType();
+		case KW_INTEGER : compileBasicType(); break;
+		case KW_CHAR : compileBasicType(); break;
+		default : error('ERM_INVALIDTYPE', lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
