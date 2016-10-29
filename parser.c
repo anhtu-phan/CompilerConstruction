@@ -46,24 +46,24 @@ void compileBlock(void) {
   // TODO of anhtu
 	if(lookAhead->tokenType == KW_CONST){
 			compileConstDecls();
-	} else
- 	if(lookAhead->tokenType == KW_TYPE){
+	} else if(lookAhead->tokenType == KW_TYPE){
 			compileTypeDecls();
-	} else
-	if(lookAhead->tokenType == KW_VAR){
+	} else if(lookAhead->tokenType == KW_VAR){
 			compileVarDecls();
-	} else
-	if(lookAhead->tokenType == KW_PROCEDURE){
+	} else if(lookAhead->tokenType == KW_PROCEDURE){
 			compileProcDecl();
-	} else
-	if(lookAhead->tokenType == KW_FUNCTION){
+	} else if(lookAhead->tokenType == KW_FUNCTION){
 		compileFuncDecl();
-	} else
-	if(lookAhead->tokenType == KW_BEGIN){
-			compileStatements();
-	} else
-        error(); // cho nay phai dua ra error
-
+	}else{
+		eat(KW_BEGIN);
+		compileStatements();
+		//eat(SB_SEMICOLON);
+		while(lookAhead->tokenType == SB_SEMICOLON){
+			eat(SB_SEMICOLON);
+			compileStatements();	
+		}
+		eat(KW_END);
+	}
   assert("Block parsed!");
 }
 
@@ -193,6 +193,8 @@ void compileConstant(void) {
 		}
 	}else if(lookAhead->tokenType == TK_CHAR){
 		eat(TK_CHAR);
+	}else{
+		error(ERM_INVALIDCONSTANT, lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
@@ -210,6 +212,7 @@ void compileBasicType(void) {
 	switch(lookAhead->tokenType){
 		case KW_INTEGER : eat(KW_INTEGER); break;
 		case KW_CHAR : eat(KW_CHAR); break;
+		default : error(ERM_INVALIDBASICTYPE, lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
