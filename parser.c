@@ -46,13 +46,13 @@ void compileBlock(void) {
   // TODO of anhtu
 	if(lookAhead->tokenType == KW_CONST){
 			compileConstDecls();
-	}  
+	}
 	if(lookAhead->tokenType == KW_TYPE){
 			compileTypeDecls();
-	}  
+	}
 	if(lookAhead->tokenType == KW_VAR){
 			compileVarDecls();
-	}  
+	}
 	if(lookAhead->tokenType == KW_PROCEDURE){
 			compileProcDecl();
 	}
@@ -178,7 +178,7 @@ void compileUnsignedConstant(void) {
 		case TK_NUMBER: eat(TK_NUMBER); break;
 		case TK_CHAR : eat(TK_CHAR); break;
 		case TK_IDENT : eat(TK_IDENT); break;
-		default : error('ERM_INVALIDCONSTANT', lookAhead->lineNo, lookAhead->colNo);
+		default : error(ERR_INVALIDCONSTANT, lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
@@ -198,7 +198,7 @@ void compileConstant(void) {
 	}else if(lookAhead->tokenType == TK_CHAR){
 		eat(TK_CHAR);
 	}else{
-		error('ERM_INVALIDCONSTANT', lookAhead->lineNo, lookAhead->colNo);
+		error(ERR_INVALIDCONSTANT, lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
@@ -209,7 +209,7 @@ void compileType(void) {
 		case KW_ARRAY : eat(KW_ARRAY); eat(SB_LSEL); eat(TK_NUMBER); eat(SB_RSEL); eat(KW_OF); compileType(); break;
 		case KW_INTEGER : compileBasicType(); break;
 		case KW_CHAR : compileBasicType(); break;
-		default : error('ERM_INVALIDTYPE', lookAhead->lineNo, lookAhead->colNo);
+		default : error(ERR_INVALIDTYPE, lookAhead->lineNo, lookAhead->colNo); break;
 	}
 }
 
@@ -218,7 +218,7 @@ void compileBasicType(void) {
 	switch(lookAhead->tokenType){
 		case KW_INTEGER : eat(KW_INTEGER); break;
 		case KW_CHAR : eat(KW_CHAR); break;
-		default : error('ERM_INVALIDBASICTYPE', lookAhead->lineNo, lookAhead->colNo);
+		default : error(ERR_INVALIDBASICTYPE, lookAhead->lineNo, lookAhead->colNo);
 	}
 }
 
@@ -358,6 +358,7 @@ void compileExpression(void) {
 
 void compileTerm(void) {
   // TODO of TuanDat
+  assert("Parsing a Term");
   compileFactor();
   while(lookAhead->tokenType==SB_TIMES || lookAhead->tokenType==SB_SLASH){
     if(lookAhead->tokenType==SB_TIMES){
@@ -367,17 +368,20 @@ void compileTerm(void) {
     }
     compileFactor();
   }
+  assert("Term parsed");
 }
 
 void compileFactor(void) {
   // TODO of TuanDat
+  assert("Compile a Factor");
+
   switch(lookAhead->tokenType){
       case SB_LPAR: eat(SB_LPAR); compileExpression(); eat(SB_RPAR); break;
-      case TK_CHAR:eat(TK_CHAR); break;
-      case TK_NUMBER: eat(TK_NUMBER); break;
+      case TK_CHAR: compileUnsignedConstant(); break;
+      case TK_NUMBER: compileUnsignedConstant(); break;
       case TK_IDENT: eat(TK_IDENT);
             switch(lookAhead->tokenType){
-            case SB_LPAR: eat(SB_LPAR);
+                    case SB_LPAR: eat(SB_LPAR);
                             compileExpression();
                             while (lookAhead->tokenType==SB_COMMA){
                                     eat(SB_COMMA);
@@ -385,18 +389,17 @@ void compileFactor(void) {
                             }
                             eat(SB_RPAR);
                             break;
-            case SB_LSEL: while(lookAhead->tokenType==SB_LSEL){
+                    case SB_LSEL: while(lookAhead->tokenType==SB_LSEL){
                                 eat(SB_LSEL);
                                 compileExpression();
                                 eat(SB_RSEL);
                             }
                             break;
-
-            }
+            };
              break;
-      default :
-            error('ERR_INVALIDFACTOR',lookAhead->lineNo,lookAhead->colNo);
+      default : error(ERR_INVALIDFACTOR,lookAhead->lineNo,lookAhead->colNo);
   }
+  assert("Factor parsed");
 }
 
 void compileCondition(void) {
@@ -409,7 +412,7 @@ void compileCondition(void) {
     case SB_LE:eat(SB_LE); break;
     case SB_GT:eat(SB_GT); break;
     case SB_GE:eat(SB_GE); break;
-    default :error('ERM_INVALIDCOMPARATOR',lookAhead->lineNo,lookAhead->colNo);
+    default :error(ERR_INVALIDCOMPARATOR,lookAhead->lineNo,lookAhead->colNo);
   }
   compileExpression();
 }
@@ -427,5 +430,4 @@ int compile(char *fileName) {
   free(lookAhead);
   closeInputStream();
   return IO_SUCCESS;
-
 }
